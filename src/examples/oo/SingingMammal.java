@@ -1,4 +1,4 @@
-package examples.simple.oo;
+package examples.oo;
 
 public class SingingMammal extends TalkingMammal {
   public SingingMammal(String name) {

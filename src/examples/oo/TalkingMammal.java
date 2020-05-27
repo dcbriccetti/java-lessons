@@ -1,4 +1,4 @@
-package examples.simple.oo;
+package examples.oo;
 
 public class TalkingMammal {
   protected final String name;
