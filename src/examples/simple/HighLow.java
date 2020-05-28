@@ -5,26 +5,23 @@ import java.util.Scanner;
 
 public class HighLow {
   public static void main(String[] args) {
-    int randomInt = new Random().nextInt(100) + 1;
+    final int UPPER_LIMIT = 100;
+    int randomInt = new Random().nextInt(UPPER_LIMIT) + 1;
     var scanner = new Scanner(System.in);
     var guess = 0;
     var numGuesses = 0;
 
     while (guess != randomInt) {
-      System.out.println("Please guess my integer from 1 to 100");
+      System.out.println("Please guess my integer from 1 to " + UPPER_LIMIT);
       guess = scanner.nextInt();
       ++numGuesses;
-      String message;
-      if (guess == randomInt) {
-        message = "Right!";
-      } else if (guess < randomInt) {
-        message = "Too low";
-      } else {
-        message = "Too high";
+      if (guess < randomInt) {
+        System.out.println("Too low");
+      } else if (guess > randomInt) {
+        System.out.println("Too high");
       }
-      System.out.println(message);
     }
 
-    System.out.println("You took " + numGuesses + " guesses");
+    System.out.println("You got it in " + numGuesses + " guesses");
   }
 }
