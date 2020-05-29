@@ -8,5 +8,6 @@ public class Interaction {
     System.out.println("What is your name?");
     var name = scanner.nextLine();
     System.out.println("Hello, " + name);
+    scanner.close();
   }
 }

@@ -17,6 +17,7 @@ public class Conditions2 {
     } else {
       message = "Too high";
     }
+    scanner.close();
     System.out.println(message);
   }
 }

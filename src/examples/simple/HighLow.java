@@ -22,6 +22,7 @@ public class HighLow {
       }
     }
 
+    scanner.close();
     System.out.println("You got it in " + numGuesses + " guesses");
   }
 }

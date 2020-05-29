@@ -8,5 +8,6 @@ public class Conditions {
     System.out.println("Please guess my integer from 1 to 3");
     var number = scanner.nextInt();
     System.out.println(number == 3 ? "Right!" : "Sorry.");
+    scanner.close();
   }
 }
