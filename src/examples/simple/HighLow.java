@@ -3,6 +3,9 @@ package examples.simple;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * High/Low Guessing Game
+ */
 public class HighLow {
   public static void main(String[] args) {
     final int UPPER_LIMIT = 100;
