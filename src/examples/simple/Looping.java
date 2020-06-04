@@ -9,7 +9,7 @@ public class Looping {
       out.println(word + " has " + word.length() + " letters.");
     }
     out.println("Here are the squares of the numbers from -5 to 5:");
-    for (int num = -5; num <= 5; num++) {
+    for (int num = -5; num <= 5; ++num) {
       out.println(num * num);
     }
   }

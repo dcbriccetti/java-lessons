@@ -13,7 +13,7 @@ public class Adventure {
     var transitions = Map.of(
         "Farm",     List.of("Town"),
         "Town",     List.of("Farm", "Airport"),
-        "Airport",  List.of("Town", "Resort")
+        "Airport",  List.of("Town")
     );
     var scanner = new Scanner(System.in);
     while (! location.isEmpty()) {
