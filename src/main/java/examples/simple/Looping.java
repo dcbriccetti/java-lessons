@@ -4,7 +4,7 @@ import static java.lang.System.out;
 
 public class Looping {
   public static void main(String[] args) {
-    var words = new String[] {"cat", "monkey", "elevator"};
+    String[] words = {"cat", "monkey", "elevator"};
     for (String word : words) {
       out.println(word + " has " + word.length() + " letters.");
     }

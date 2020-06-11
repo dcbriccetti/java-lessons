@@ -2,6 +2,7 @@ package examples.adventure;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -18,6 +19,12 @@ public class Adventure {
     var scanner = new Scanner(System.in);
     while (! location.isEmpty()) {
       out.println("You are at the " + location);
+
+      // Some event happens with a certain probability
+      if (new Random().nextFloat() < 0.5) {
+        out.println("You find a pot of gold");
+      }
+
       var places = transitions.get(location);
       out.println("You can go to " + places);
       out.println("Where to? ");
