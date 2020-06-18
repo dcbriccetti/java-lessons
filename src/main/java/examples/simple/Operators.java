@@ -9,7 +9,7 @@ public class Operators {
     int sumAges = student1Age + student2Age;
     int diffAges = student2Age - student1Age;
     boolean student2Older = student2Age > student1Age;
-    boolean student2OlderOrSome = student2Age >= student1Age;
+    boolean student2OlderOrSame = student2Age >= student1Age;
     boolean agesEqual = student1Age == student2Age;
     int student1Grade = 5;
     int student2Grade = 5;
