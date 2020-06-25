@@ -6,7 +6,7 @@ public class Types {
     // Primitive types
     char letterA = 'a';
     byte largestByte = 127;
-    short largestShort = 32767;
+    short largestShort = 32_767;
     int largestInt = 2_147_483_647;
     long largestLong = 9_223_372_036_854_775_807L;
     float largestFloat = 340282346638528860000000000000000000000.0f;
