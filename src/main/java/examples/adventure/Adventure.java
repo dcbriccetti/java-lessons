@@ -39,8 +39,9 @@ public class Adventure {
         airport,  List.of(town)
     );
     var scanner = new Scanner(System.in);
+    var running = true;
 
-    while (true) {
+    while (running) {
       out.println("You are at " + location);
 
       // Some event happens with a given probability
@@ -52,11 +53,15 @@ public class Adventure {
       out.println("You can go to " + places);
       out.println("Where to? ");
       var response = scanner.nextLine();
-      var maybePlace = places.stream().filter(place -> place.name.equalsIgnoreCase(response)).findFirst();
-      if (maybePlace.isPresent()) {
-        location = maybePlace.get();
+      if (response.equals("stop")) {
+        running = false;
       } else {
-        out.println("You can't go there.");
+        var maybePlace = places.stream().filter(place -> place.name.equalsIgnoreCase(response)).findFirst();
+        if (maybePlace.isPresent()) {
+          location = maybePlace.get();
+        } else {
+          out.println("You can't go there.");
+        }
       }
     }
   }
