@@ -24,11 +24,22 @@ public class Adventure {
     }
   }
 
+  static class Event {
+    private final float probability;
+    private final String description;
+
+    public Event(float probability, String description) {
+      this.probability = probability;
+      this.description = description;
+    }
+  }
+
   public static void main(String[] args) {
     new Adventure().play();
   }
 
   public void play() {
+    var event = new Event(0.1f, "A friendly pig knocks you over");
     var farm = new Place("Farm", "an old farm with animals");
     var town = new Place("Town", "a small town in the middle of nowhere");
     var airport = new Place("Airport", "a one-runway airport, mostly used by crop dusters");
@@ -53,7 +64,7 @@ public class Adventure {
       out.println("You can go to " + places);
       out.println("Where to? ");
       var response = scanner.nextLine();
-      if (response.equals("stop")) {
+      if (response.equalsIgnoreCase("stop")) {
         running = false;
       } else {
         var maybePlace = places.stream().filter(place -> place.name.equalsIgnoreCase(response)).findFirst();
