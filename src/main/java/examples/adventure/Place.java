@@ -13,7 +13,7 @@ class Place {
   Place(String name, String description) {
     this.name = name;
     this.description = description;
-    this.events = new ArrayList<Event>();
+    this.events = new ArrayList<>();
   }
 
   Place(String name, String description, Collection<Event> events) {
