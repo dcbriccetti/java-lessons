@@ -1,12 +1,13 @@
 package examples.adventure;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 class Event {
   final float probability;
   final String description;
   final int conditionImpact;
-  protected Collection<Event> elseEvents;
+  protected Collection<Event> elseEvents = new ArrayList<>();
 
   public Event(float probability, String description, int conditionImpact) {
     this.probability = probability;
