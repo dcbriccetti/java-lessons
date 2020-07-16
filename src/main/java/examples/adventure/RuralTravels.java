@@ -3,13 +3,13 @@ package examples.adventure;
 import java.util.List;
 
 /** This very simple text adventure game uses Lists and Maps to store information about the world. */
-public class Adventure extends Game {
+public class RuralTravels extends Game {
 
   public static void main(String[] args) {
-    new Adventure().play();
+    new RuralTravels().play();
   }
 
-  public Adventure() {
+  public RuralTravels() {
     var farmEvents = List.of(
         new Event(0.4f, "A friendly pig knocks you over", -10)
     );
