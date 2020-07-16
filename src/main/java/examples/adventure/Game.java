@@ -32,7 +32,7 @@ public abstract class Game {
 
       out.printf("Your %s is %d\n", conditionType, condition);
       var places = location.transitions;
-      String placesCommaSeparated = places.stream().map(Place::toString).collect(Collectors.joining(", "));
+      String placesCommaSeparated = places.stream().map(place -> place.name).collect(Collectors.joining(", "));
       out.println("You can go to " + placesCommaSeparated);
       out.println("Where to? ");
       var response = scanner.nextLine();
