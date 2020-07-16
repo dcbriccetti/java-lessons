@@ -27,6 +27,13 @@ public abstract class Game {
         if (random.nextFloat() < event.probability) {
           out.println(event.description);
           condition += event.conditionImpact;
+        } else {
+          for (Event elseEvent : event.elseEvents) {
+            if (random.nextFloat() < elseEvent.probability) {
+              out.println(elseEvent.description);
+              condition += elseEvent.conditionImpact;
+            }
+          }
         }
       }
 

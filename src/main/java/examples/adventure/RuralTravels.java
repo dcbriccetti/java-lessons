@@ -10,9 +10,9 @@ public class RuralTravels extends Game {
   }
 
   public RuralTravels() {
-    var farmEvents = List.of(
-        new Event(0.4f, "A friendly pig knocks you over", -10)
-    );
+    Event pigKnockOverEvent = new Event(0.4f, "A friendly pig knocks you over", -10);
+    pigKnockOverEvent.addElseEvents(List.of(new Event(1, "Your lovely pig oinks and greets you.", 10)));
+    var farmEvents = List.of(pigKnockOverEvent);
     var farm = new Place("Farm", "an old farm with animals", farmEvents);
 
     var town = new Place("Town", "a small town in the middle of nowhere");
