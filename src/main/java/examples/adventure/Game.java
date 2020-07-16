@@ -12,7 +12,6 @@ public abstract class Game {
   protected int condition = 100;
   protected String conditionType = "Health";
   protected Place location;
-  private final Random random = new Random();
 
   public void play() {
 
@@ -23,19 +22,7 @@ public abstract class Game {
     while (running) {
       out.println("You are at " + location);
 
-      for (Event event : location.events) {
-        if (random.nextFloat() < event.probability) {
-          out.println(event.description);
-          condition += event.conditionImpact;
-        } else {
-          for (Event elseEvent : event.elseEvents) {
-            if (random.nextFloat() < elseEvent.probability) {
-              out.println(elseEvent.description);
-              condition += elseEvent.conditionImpact;
-            }
-          }
-        }
-      }
+      processEvents();
 
       out.printf("Your %s is %d\n", conditionType, condition);
       var places = location.transitions;
@@ -59,6 +46,12 @@ public abstract class Game {
             out.printf("More than one place matches “%s”\n", response);
         }
       }
+    }
+  }
+
+  private void processEvents() {
+    for (Event event : location.events) {
+      condition += event.process();
     }
   }
 
