@@ -1,7 +1,6 @@
 package examples.adventure;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
