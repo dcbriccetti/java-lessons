@@ -16,9 +16,11 @@ public class CountdownTimer {
     panel.add(timeRemaining, BorderLayout.CENTER);
     panel.add(button, BorderLayout.SOUTH);
     button.addActionListener(e -> {
-      var stopTime = System.currentTimeMillis() + 5 * 60 * 1_000;
-      new Timer(1_000, (actionEvent) -> timeRemaining.setText(String.valueOf(
-          (stopTime - System.currentTimeMillis()) / 1_000))).start();
+      int num_seconds = 8; // 5 * 60;
+      var stopTime = System.currentTimeMillis() + num_seconds * 1_000;
+      Timer timer = new Timer(1_000, (actionEvent) -> timeRemaining.setText(String.valueOf(
+          (stopTime - System.currentTimeMillis()) / 1_000)));
+      timer.start();
     });
     frame.setContentPane(panel);
     frame.pack();
