@@ -1,7 +1,8 @@
 package examples.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import javax.swing.*;
-import java.awt.*;
 
 public class CountdownTimer {
   private Timer timer;
@@ -38,7 +39,7 @@ public class CountdownTimer {
   private void startTimer() {
     startButton.setEnabled(false);
     var stopTime = System.currentTimeMillis() + num_seconds * 1_000;
-    displayTimeRemaining(timeRemainingLabel, num_seconds * 1_000);
+    displayTimeRemaining(num_seconds * 1_000);
     timer = new Timer(1_000, (actionEvent) -> handleTimerEvent(stopTime));
     timer.start();
   }
@@ -49,10 +50,10 @@ public class CountdownTimer {
       timer.stop();
       startButton.setEnabled(true);
     }
-    displayTimeRemaining(timeRemainingLabel, timeRemainingMillis);
+    displayTimeRemaining(timeRemainingMillis);
   }
 
-  private void displayTimeRemaining(JLabel timeRemainingLabel, long timeRemainingMillis) {
+  private void displayTimeRemaining(long timeRemainingMillis) {
     timeRemainingLabel.setText(String.valueOf(Math.round(timeRemainingMillis / 1_000f)));
   }
 }
