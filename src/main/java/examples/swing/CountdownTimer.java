@@ -5,21 +5,21 @@ import java.awt.*;
 
 public class CountdownTimer {
   private Timer timer;
-  private JButton startButton;
-  private JLabel timeRemainingLabel;
+  private final JButton startButton;
+  private final JLabel timeRemainingLabel;
   private final int num_seconds = 300;
 
   public static void main(String[] args) {
-    new CountdownTimer().start();
+    new CountdownTimer();
   }
 
-  private void start() {
+  public CountdownTimer() {
     var frame = new JFrame("Countdown Timer");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setLocationRelativeTo(null);
     var panel = new JPanel(new BorderLayout());
     startButton = new JButton("Start Countdown");
-    createTimeLabel();
+    timeRemainingLabel = createTimeLabel();
     panel.add(timeRemainingLabel, BorderLayout.CENTER);
     panel.add(startButton, BorderLayout.SOUTH);
     startButton.addActionListener(e -> startTimer());
@@ -28,11 +28,11 @@ public class CountdownTimer {
     frame.setVisible(true);
   }
 
-  private void createTimeLabel() {
-    timeRemainingLabel = new JLabel(String.valueOf(num_seconds));
-    timeRemainingLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    var font = new Font("Helvetica", Font.BOLD, 200);
-    timeRemainingLabel.setFont(font);
+  private JLabel createTimeLabel() {
+    JLabel label = new JLabel(String.valueOf(num_seconds));
+    label.setHorizontalAlignment(SwingConstants.CENTER);
+    label.setFont(new Font("Helvetica", Font.BOLD, 200));
+    return label;
   }
 
   private void startTimer() {
