@@ -40,13 +40,13 @@ public class CountdownTimer {
     startButton.setEnabled(false);
     var stopTime = System.currentTimeMillis() + num_seconds * 1_000;
     displayTimeRemaining(num_seconds * 1_000);
-    timer = new Timer(1_000, (actionEvent) -> handleTimerEvent(stopTime));
+    timer = new Timer(1_000, actionEvent -> handleTimerEvent(stopTime));
     timer.start();
   }
 
   private void handleTimerEvent(long stopTime) {
     long timeRemainingMillis = stopTime - System.currentTimeMillis();
-    if (timeRemainingMillis < 0) {
+    if (timeRemainingMillis <= 0) {
       timer.stop();
       startButton.setEnabled(true);
     }
