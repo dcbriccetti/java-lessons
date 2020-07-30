@@ -1,14 +1,13 @@
 package examples.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.*;
 import javax.swing.*;
 
 public class CountdownTimer {
   private Timer timer;
   private final JButton startButton;
   private final JLabel timeRemainingLabel;
-  private final int num_seconds = 300;
+  private final int num_seconds = 20; // 5 * 60;
 
   public static void main(String[] args) {
     new CountdownTimer();
@@ -21,8 +20,13 @@ public class CountdownTimer {
     var panel = new JPanel(new BorderLayout());
     startButton = new JButton("Start Countdown");
     timeRemainingLabel = createTimeLabel();
+    var messageLabel = createMessageLabel();
     panel.add(timeRemainingLabel, BorderLayout.CENTER);
-    panel.add(startButton, BorderLayout.SOUTH);
+    var controlsPanel = new JPanel();
+    controlsPanel.setLayout(new FlowLayout());
+    controlsPanel.add(startButton);
+    panel.add(messageLabel, BorderLayout.NORTH);
+    panel.add(controlsPanel, BorderLayout.SOUTH);
     startButton.addActionListener(e -> startTimer());
     frame.setContentPane(panel);
     frame.pack();
@@ -32,7 +36,14 @@ public class CountdownTimer {
   private JLabel createTimeLabel() {
     JLabel label = new JLabel(String.valueOf(num_seconds));
     label.setHorizontalAlignment(SwingConstants.CENTER);
-    label.setFont(new Font("Helvetica", Font.BOLD, 200));
+    label.setFont(new Font("Helvetica", Font.BOLD, 500));
+    return label;
+  }
+
+  private JLabel createMessageLabel() {
+    JLabel label = new JLabel("Time left in break");
+    label.setHorizontalAlignment(SwingConstants.CENTER);
+    label.setFont(new Font("Helvetica", Font.BOLD, 100));
     return label;
   }
 
