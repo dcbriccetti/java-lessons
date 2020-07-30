@@ -3,6 +3,10 @@ package examples.swing;
 import java.awt.*;
 import javax.swing.*;
 
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
+import static java.awt.BorderLayout.SOUTH;
+
 public class CountdownTimer {
   private Timer timer;
   private final JButton startButton;
@@ -19,31 +23,24 @@ public class CountdownTimer {
     frame.setLocationRelativeTo(null);
     var panel = new JPanel(new BorderLayout());
     startButton = new JButton("Start Countdown");
-    timeRemainingLabel = createTimeLabel();
-    var messageLabel = createMessageLabel();
-    panel.add(timeRemainingLabel, BorderLayout.CENTER);
+    timeRemainingLabel = label(String.valueOf(num_seconds), 500);
+    panel.add(timeRemainingLabel, CENTER);
     var controlsPanel = new JPanel();
     controlsPanel.setLayout(new FlowLayout());
     controlsPanel.add(startButton);
-    panel.add(messageLabel, BorderLayout.NORTH);
-    panel.add(controlsPanel, BorderLayout.SOUTH);
+    panel.add(label("Time left in break", 100), NORTH);
+    panel.add(controlsPanel, SOUTH);
     startButton.addActionListener(e -> startTimer());
     frame.setContentPane(panel);
     frame.pack();
     frame.setVisible(true);
   }
 
-  private JLabel createTimeLabel() {
-    JLabel label = new JLabel(String.valueOf(num_seconds));
+  private JLabel label(String text, int size) {
+    JLabel label = new JLabel(text);
     label.setHorizontalAlignment(SwingConstants.CENTER);
-    label.setFont(new Font("Helvetica", Font.BOLD, 500));
-    return label;
-  }
-
-  private JLabel createMessageLabel() {
-    JLabel label = new JLabel("Time left in break");
-    label.setHorizontalAlignment(SwingConstants.CENTER);
-    label.setFont(new Font("Helvetica", Font.BOLD, 100));
+    label.setFont(new Font("Helvetica", Font.BOLD, size));
+    label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     return label;
   }
 
