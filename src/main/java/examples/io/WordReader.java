@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Reads words from a file and displays a randomly-chosen one
+ * Reads words from a file
  */
 public class WordReader {
   public static void main(String[] args) {
@@ -23,17 +23,23 @@ public class WordReader {
   }
 
   public static List<String> commonWords() {
-    try {
-      return wordsFromFile("src/main/resources/common-words.txt");
-    } catch (IOException e) {
-      return new ArrayList<>();
-    }
+    return wordsFromFile("src/main/resources/common-words.txt");
   }
 
-  public static List<String> wordsFromFile(String filename) throws IOException {
+  public static List<String> manyWords() {
+    return wordsFromFile("/usr/share/dict/words");
+  }
+
+  public static List<String> wordsFromFile(String filename) {
     Path wordsPath = Paths.get(filename);
-    Stream<String> lines = Files.lines(wordsPath);
-    return lines.collect(Collectors.toList());
+    Stream<String> lines;
+    try {
+      lines = Files.lines(wordsPath);
+    } catch (IOException e) {
+      System.err.println(e.toString());
+      return Collections.emptyList();
+    }
+    return lines.filter(line -> ! line.startsWith("#")).collect(Collectors.toList());
   }
 }
 

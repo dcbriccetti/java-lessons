@@ -13,16 +13,32 @@ public class Anagrams {
 
   private final List<List<String>> anagramGroups;
   private final Random rnd = new Random();
+  private final int numWords;
 
-  public List<String> getRandom() {
-    return getRandom(true);
+  public List<String> randomlySelectGroup() {
+    return randomlySelectGroup(true);
   }
 
-  public List<String> getRandom(boolean remove) {
+  /**
+   * Randomly selects an anagram group and optionally removes it.
+   * @param remove whether we want to remove the group
+   * @return an anagram group
+   */
+  public List<String> randomlySelectGroup(boolean remove) {
+    if (anagramGroups.size() == 0)
+      throw new IllegalStateException("There are no anagram groups");
     int i = rnd.nextInt(anagramGroups.size());
     List<String> group = anagramGroups.get(i);
     if (remove) anagramGroups.remove(i);
     return group;
+  }
+
+  public int size() {
+    return anagramGroups.size();
+  }
+
+  public int numWords() {
+    return numWords;
   }
 
   class SortedWord {
@@ -42,6 +58,7 @@ public class Anagrams {
   }
 
   public Anagrams(List<String> words) {
+    numWords = words.size();
     Map<String, List<SortedWord>> grouped = words.stream().
         filter(word -> word.length() > 2).
         map(SortedWord::new).
