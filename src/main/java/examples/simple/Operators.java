@@ -15,9 +15,11 @@ public class Operators {
     int student2Grade = 5;
     boolean sameAgeAndGrade = student1Age == student2Age && student1Grade == student2Grade;
     boolean sameAgeOrSameGrade = student1Age == student2Age || student1Grade == student2Grade;
+    boolean sameAgeAndSameGrade = student1Age == student2Age && student1Grade == student2Grade;
     ++student1Age; // student 1 has a birthday
     student2Age += 2; // student 2 has two birthdays
     int remainder = 14 % 12; // % is the “remainder” or “modulo” operator
     boolean remainderIs2 = remainder == 2; // True
   }
 }
+

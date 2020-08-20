@@ -2,6 +2,9 @@ package examples.simple;
 
 import java.util.Scanner;
 
+/**
+ * Demonstrates interaction
+ */
 public class Interaction {
   public static void main(String[] args) {
     var scanner = new Scanner(System.in);
