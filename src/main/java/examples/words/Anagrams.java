@@ -1,4 +1,4 @@
-package examples.datastruct;
+package examples.words;
 
 import java.util.ArrayList;
 import java.util.Arrays;
