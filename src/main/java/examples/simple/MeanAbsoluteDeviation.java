@@ -11,6 +11,7 @@ public class MeanAbsoluteDeviation {
       sum += number;
     // Compute the mean
     float mean = (float) sum / numbers.length;
+    // Compute the sum of deviations
     float sumOfDeviations = 0;
     for (int number : numbers) {
       // for each number, find its deviation from the mean
