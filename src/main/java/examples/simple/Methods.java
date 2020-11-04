@@ -2,8 +2,8 @@ package examples.simple;
 
 import java.time.LocalTime;
 
-/** Illustrates calling a function with no arguments, and calling a function with one argument. */
-public class Functions {
+/** Illustrates calling a method with no arguments, and calling a method with one argument. */
+public class Methods {
   public static void main(String[] args) {
     printTime();
 

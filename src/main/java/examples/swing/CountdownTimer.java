@@ -11,7 +11,7 @@ public class CountdownTimer {
   private Timer timer;
   private final JButton startButton;
   private final JLabel timeRemainingLabel;
-  private final int num_seconds = 20; // 5 * 60;
+  private final int num_seconds = 4 * 60 + 40; // 5 * 60;
 
   public static void main(String[] args) {
     new CountdownTimer();

@@ -8,7 +8,7 @@ class FunctionsTest {
 
   @Test
   void celsiusToFahrenheit() {
-    assertEquals(212, Functions.celsiusToFahrenheit(100));
-    assertEquals( 32, Functions.celsiusToFahrenheit(0));
+    assertEquals(212, Methods.celsiusToFahrenheit(100));
+    assertEquals( 32, Methods.celsiusToFahrenheit(0));
   }
 }
