@@ -1,7 +1,7 @@
 package examples.oo.animals;
 
 public class Parrot extends Aves {
-  public Parrot(String name) {
+  public Parrot(String name) { // This is a constructor
     super(name);
   }
 
