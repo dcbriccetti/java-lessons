@@ -29,5 +29,15 @@ public class Quiz {
 
 
     // Write code to print “yes” if counter2 equals 2 or “no” if not
+
+
+    // Use a regular expression to extract the name and height from the following: "Name: Sue, Height: 150"
+
+
+    // Display the extracted name and height using printf
+
+
+    // Create a list containing the current temperatures (in Celsius) of several Bay Area cities
+
   }
 }
