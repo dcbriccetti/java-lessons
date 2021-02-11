@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.stream.Collectors;
 
 public class Fetch {
   public static void main(String[] args) {
@@ -12,11 +13,9 @@ public class Fetch {
     try {
       var conn = (HttpURLConnection) new URL("http://davebsoft.com").openConnection();
       var reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      String line;
-      while ((line = reader.readLine()) != null) {
-        System.out.println(line);
-      }
+      String line = reader.lines().collect(Collectors.joining("\n"));
       conn.disconnect();
+      System.out.println(line);
     } catch (IOException e) {
       e.printStackTrace();
     }
