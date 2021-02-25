@@ -3,7 +3,9 @@ package examples.wordladder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,12 +14,29 @@ public class WordLadder {
     // Words come from https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt
     String filename = "src/main/resources/examples/5-letter-words.txt";
     List<String> words = Files.lines(Paths.get(filename)).limit(10_000).sorted().collect(Collectors.toList());
-    for (String startingWord : words) {
-      List<String> oneDifferentWords = wordsOneDifferentFrom(startingWord, words);
-      if (! oneDifferentWords.isEmpty())
-        System.out.printf("%s: %s\n", startingWord, oneDifferentWords);
+//    for (String startingWord : words) {
+//      List<String> oneDifferentWords = wordsOneDifferentFrom(startingWord, words);
+//      if (! oneDifferentWords.isEmpty())
+//        System.out.printf("%s: %s\n", startingWord, oneDifferentWords);
+//    }
+    new WordLadder().findLadder("table", "crown");
+  }
+
+  void findLadder(String startWord, String endWord) {
+    boolean found = false;
+    var frontier = new ArrayDeque<String>();
+    frontier.add(startWord);
+    var explored = new HashSet<String>();
+
+    while (!found && !frontier.isEmpty()) {
+      String exploring = frontier.pop();
+      boolean alreadySeen = explored.contains(exploring);
+      if (!alreadySeen) {
+        explored.add(exploring);
+      }
     }
   }
+
 
   /**
    * Returns a list of the words in the dictionary that are one letter
