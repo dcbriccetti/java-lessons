@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +11,7 @@ public class WordLadder {
   public static void main(String[] args) throws IOException {
     // Words come from https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt
     String filename = "src/main/resources/examples/5-letter-words.txt";
-    List<String> words = Files.lines(Paths.get(filename)).limit(10_000).collect(Collectors.toList());
+    List<String> words = Files.lines(Paths.get(filename)).limit(10_000).sorted().collect(Collectors.toList());
     for (String startingWord : words) {
       List<String> oneDifferentWords = wordsOneDifferentFrom(startingWord, words);
       if (! oneDifferentWords.isEmpty())
