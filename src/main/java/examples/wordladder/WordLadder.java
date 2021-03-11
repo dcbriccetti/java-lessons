@@ -4,20 +4,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class WordLadder {
   public static void main(String[] args) throws IOException {
     // Words come from https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt
     String filename = "src/main/resources/examples/5-letter-words.txt";
-    Map<String,WordNode> dictionary = Files.lines(Paths.get(filename)).limit(10_000).map(WordNode::new).collect(Collectors.toMap(n -> n.word, n -> n));
+    Map<String, WordNode> dictionary = Files.lines(Paths.get(filename))
+        .limit(10_000)
+        .map(WordNode::new)
+        .collect(Collectors.toMap(n -> n.word, n -> n));
     new WordLadder().findLadder(dictionary.get("table"), dictionary.get("crown"), dictionary);
   }
 
@@ -52,7 +51,10 @@ public class WordLadder {
    * different from the given word.
    */
   static List<WordNode> wordsOneDifferentFrom(WordNode startingWord, Map<String, WordNode> dictionary) {
-    return dictionary.values().stream().filter(wordNode -> numDifferentLetters(startingWord.word, wordNode.word) == 1).collect(Collectors.toList());
+    return dictionary.values()
+        .stream()
+        .filter(wordNode -> numDifferentLetters(startingWord.word, wordNode.word) == 1)
+        .collect(Collectors.toList());
   }
 
   /**
