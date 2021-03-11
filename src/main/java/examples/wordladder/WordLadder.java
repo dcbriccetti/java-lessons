@@ -8,24 +8,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WordLadder {
   public static void main(String[] args) throws IOException {
     // Words come from https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt
     String filename = "src/main/resources/examples/5-letter-words.txt";
-    List<String> words = Files.lines(Paths.get(filename)).limit(10_000).sorted().collect(Collectors.toList());
-//    for (String startingWord : words) {
-//      List<String> oneDifferentWords = wordsOneDifferentFrom(startingWord, words);
-//      if (! oneDifferentWords.isEmpty())
-//        System.out.printf("%s: %s\n", startingWord, oneDifferentWords);
-//    }
-    new WordLadder().findLadder("table", "crown");
+    List<String> dictionary = Files.lines(Paths.get(filename)).limit(10_000).sorted().collect(Collectors.toList());
+    new WordLadder().findLadder("table", "crown", dictionary);
   }
 
-  void findLadder(String startWord, String endWord) {
+  void findLadder(String startWord, String endWord, List<String> dictionary) {
     boolean found = false;
     var frontier = new ArrayDeque<String>();
-    frontier.add(startWord);
+    frontier.add(startWord); // The frontier starts with just the starting word
     var explored = new HashSet<String>();
 
     while (!found && !frontier.isEmpty()) {
@@ -33,6 +29,16 @@ public class WordLadder {
       boolean alreadySeen = explored.contains(exploring);
       if (!alreadySeen) {
         explored.add(exploring);
+        List<String> newWords = wordsOneDifferentFrom(exploring, dictionary);
+        System.out.printf("%s -> %s, ex: %d, fr: %d\n", exploring, newWords, explored.size(), frontier.size());
+
+        for (String newWord : newWords) {
+          if (newWord.equals(endWord)) {
+            found = true;
+            System.out.println("Word found!");
+          } else
+            frontier.add(newWord);
+        }
       }
     }
   }
@@ -42,15 +48,8 @@ public class WordLadder {
    * Returns a list of the words in the dictionary that are one letter
    * different from the given word.
    */
-  static List<String> wordsOneDifferentFrom(String startingWord, List<String> words) {
-    List<String> wordsOneDifferentFrom = new ArrayList<>();
-    for (String word : words) {
-      int diffs = numDifferentLetters(startingWord, word);
-      if (diffs == 1)
-        wordsOneDifferentFrom.add(word);
-    }
-
-    return wordsOneDifferentFrom;
+  static List<String> wordsOneDifferentFrom(String startingWord, List<String> dictionary) {
+    return dictionary.stream().filter(word -> numDifferentLetters(startingWord, word) == 1).collect(Collectors.toList());
   }
 
   /**
