@@ -5,8 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,30 +17,30 @@ public class WordLadder {
   public static void main(String[] args) throws IOException {
     // Words come from https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt
     String filename = "src/main/resources/examples/5-letter-words.txt";
-    List<String> dictionary = Files.lines(Paths.get(filename)).limit(10_000).sorted().collect(Collectors.toList());
-    new WordLadder().findLadder("table", "crown", dictionary);
+    Map<String,WordNode> dictionary = Files.lines(Paths.get(filename)).limit(10_000).map(WordNode::new).collect(Collectors.toMap(n -> n.word, n -> n));
+    new WordLadder().findLadder(dictionary.get("table"), dictionary.get("crown"), dictionary);
   }
 
-  void findLadder(String startWord, String endWord, List<String> dictionary) {
+  void findLadder(WordNode startWord, WordNode endWord, Map<String, WordNode> dictionary) {
     boolean found = false;
-    var frontier = new ArrayDeque<String>();
+    var frontier = new ArrayDeque<WordNode>();
     frontier.add(startWord); // The frontier starts with just the starting word
-    var explored = new HashSet<String>();
+    var explored = new HashSet<WordNode>();
 
     while (!found && !frontier.isEmpty()) {
-      String exploring = frontier.pop();
+      WordNode exploring = frontier.pop();
       boolean alreadySeen = explored.contains(exploring);
       if (!alreadySeen) {
         explored.add(exploring);
-        List<String> newWords = wordsOneDifferentFrom(exploring, dictionary);
-        System.out.printf("%s -> %s, ex: %d, fr: %d\n", exploring, newWords, explored.size(), frontier.size());
+        List<WordNode> newWordNodes = wordsOneDifferentFrom(exploring, dictionary);
+        System.out.printf("%s -> %s, ex: %d, fr: %d\n", exploring, newWordNodes, explored.size(), frontier.size());
 
-        for (String newWord : newWords) {
-          if (newWord.equals(endWord)) {
+        for (WordNode newWordNode : newWordNodes) {
+          if (newWordNode.equals(endWord)) {
             found = true;
             System.out.println("Word found!");
           } else
-            frontier.add(newWord);
+            frontier.add(newWordNode);
         }
       }
     }
@@ -48,8 +51,8 @@ public class WordLadder {
    * Returns a list of the words in the dictionary that are one letter
    * different from the given word.
    */
-  static List<String> wordsOneDifferentFrom(String startingWord, List<String> dictionary) {
-    return dictionary.stream().filter(word -> numDifferentLetters(startingWord, word) == 1).collect(Collectors.toList());
+  static List<WordNode> wordsOneDifferentFrom(WordNode startingWord, Map<String, WordNode> dictionary) {
+    return dictionary.values().stream().filter(wordNode -> numDifferentLetters(startingWord.word, wordNode.word) == 1).collect(Collectors.toList());
   }
 
   /**
