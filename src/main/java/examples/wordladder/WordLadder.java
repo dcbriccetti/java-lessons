@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WordLadder {
@@ -20,27 +21,47 @@ public class WordLadder {
     new WordLadder().findLadder(dictionary.get("table"), dictionary.get("crown"), dictionary);
   }
 
-  void findLadder(WordNode startWord, WordNode endWord, Map<String, WordNode> dictionary) {
+  void findLadder(WordNode startWordNode, WordNode endWordNode, Map<String, WordNode> dictionary) {
     boolean found = false;
     var frontier = new ArrayDeque<WordNode>();
-    frontier.add(startWord); // The frontier starts with just the starting word
+    frontier.add(startWordNode); // The frontier starts with just the starting word
     var explored = new HashSet<WordNode>();
 
     while (!found && !frontier.isEmpty()) {
       WordNode exploring = frontier.pop();
-      boolean alreadySeen = explored.contains(exploring);
-      if (!alreadySeen) {
-        explored.add(exploring);
-        List<WordNode> newWordNodes = wordsOneDifferentFrom(exploring, dictionary);
-        System.out.printf("%s -> %s, ex: %d, fr: %d\n", exploring, newWordNodes, explored.size(), frontier.size());
+      boolean wordUnexplored = !explored.contains(exploring);
+      if (wordUnexplored) {
+        List<WordNode> newWordNodes = wordsOneDifferentFrom(exploring, dictionary)
+            .stream()
+            .filter(wordNode -> !frontier.contains(wordNode))
+            .collect(Collectors.toList());
+//        System.out.printf("%s -> %s, ex: %d, fr: %d\n", exploring, newWordNodes, explored.size(), frontier.size());
 
         for (WordNode newWordNode : newWordNodes) {
-          if (newWordNode.equals(endWord)) {
+          newWordNode.parents.add(exploring);
+          exploring.children.add(newWordNode);
+          if (newWordNode == endWordNode) {
             found = true;
             System.out.println("Word found!");
-          } else
+          } else {
             frontier.add(newWordNode);
+          }
         }
+        explored.add(exploring);
+      }
+    }
+    if (found)
+      showWayBack(endWordNode, startWordNode, 0, new HashSet<>());
+  }
+
+  private void showWayBack(WordNode wordNode, WordNode startWordNode, int level, Set<String> exploredParents) {
+    for (int i = 0; i < level; i++) System.out.print("  ");
+    System.out.println(wordNode.word);
+    if (wordNode != startWordNode && level < 20) {
+      WordNode parent = wordNode.parents.get(0);
+      if (!exploredParents.contains(parent.word)) {
+        exploredParents.add(parent.word);
+        showWayBack(parent, startWordNode, level + 1, exploredParents);
       }
     }
   }
