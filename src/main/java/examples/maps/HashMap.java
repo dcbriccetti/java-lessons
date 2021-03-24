@@ -1,16 +1,18 @@
 package examples.maps;
 
-import java.util.LinkedList;
-
 public class HashMap<K, V> {
+
   public static class Bucket<K, V> {
+    private Entry<K, V> entry;
+
     @Override public String toString() {
-      return entries.toString();
+      return entry.toString();
     }
 
     public static class Entry<K, V> {
       public K key;
       public V value;
+      public Entry<K, V> next;
 
       public Entry(K key, V value) {
         this.key = key;
@@ -22,10 +24,8 @@ public class HashMap<K, V> {
       }
     }
 
-    public final LinkedList<Entry<K, V>> entries = new LinkedList<>();
-
     public Bucket(K key, V value) {
-      entries.add(new Entry<>(key, value));
+      entry = new Entry<>(key, value);
     }
   }
 
@@ -43,21 +43,28 @@ public class HashMap<K, V> {
 
     boolean keyFound = false;
 
-    for (Bucket.Entry<K, V> entry : existingBucket.entries) {
+    Bucket.Entry<K, V> entry = existingBucket.entry;
+    while (entry != null) {
       if (entry.key.equals(key)) {
         entry.value = value;
         keyFound = true;
       }
+      entry = entry.next;
     }
 
     if (! keyFound) {
-      existingBucket.entries.add(new Bucket.Entry<>(key, value));
+      var formerHead = existingBucket.entry;
+      var newHead = new Bucket.Entry<>(key, value);
+      newHead.next = formerHead;
+      existingBucket.entry = newHead;
     }
   }
 
   public V get(K key) {
-    for (Bucket.Entry<K, V> entry : buckets[hashIndex(key)].entries) {
+    var entry = buckets[hashIndex(key)].entry;
+    while (entry != null) {
       if (entry.key.equals(key)) return entry.value;
+      entry = entry.next;
     }
     return null;
   }
