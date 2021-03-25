@@ -74,4 +74,13 @@ class HashMapTest {
     assertEquals(102, map.get("bca"));
     assertEquals(103, map.get("cab"));
   }
+
+  @Test
+  void contains() {
+    var map = new HashMap<String, Integer>();
+    var key = "abc";
+    assertFalse(map.contains(key));
+    map.put(key, 101);
+    assertTrue(map.contains(key));
+  }
 }

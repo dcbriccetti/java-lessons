@@ -7,6 +7,11 @@ public class HashMap<K, V> {
     private V value;
     private Link<K, V> next;
 
+    public Link(K key, V value, Link<K, V> next) {
+      this(key, value);
+      this.next = next;
+    }
+
     public Link(K key, V value) {
       this.key = key;
       this.value = value;
@@ -25,41 +30,40 @@ public class HashMap<K, V> {
       return;
     }
 
-    boolean keyFound = false;
-
-    for (Link<K, V> link = existingBucket; link != null && !keyFound; link = link.next)
-      if (link.key.equals(key)) {
-        link.value = value;
-        keyFound = true;
-      }
-
-    if (!keyFound) {
-      var newHead = new Link<>(key, value);
-      newHead.next = existingBucket;
-      buckets[index] = newHead;
-    }
+    var foundLink = find(key);
+    if (foundLink != null)
+      foundLink.value = value;
+    else
+      buckets[index] = new Link<>(key, value, existingBucket);
   }
 
   public V get(K key) {
-    for (Link<K, V> link = buckets[hashIndex(key)]; link != null; link = link.next)
-      if (link.key.equals(key))
-        return link.value;
-    return null;
+    var link = find(key);
+    return link == null ? null : link.value;
+  }
+
+  public boolean contains(K key) {
+    return find(key) != null;
   }
 
   public void remove(K key) {
     var index = hashIndex(key);
     Link<K, V> prev = null;
     for (Link<K, V> link = buckets[index]; link != null; link = link.next) {
-      if (link.key.equals(key)) {
+      if (link.key.equals(key))
         if (prev == null)
           buckets[index] = link.next;
         else
           prev.next = link.next;
-      }
       prev = link;
     }
+  }
 
+  private Link<K, V> find(K key) {
+    for (Link<K, V> link = buckets[hashIndex(key)]; link != null; link = link.next)
+      if (link.key.equals(key))
+        return link;
+    return null;
   }
 
   private int hashIndex(K key) {
