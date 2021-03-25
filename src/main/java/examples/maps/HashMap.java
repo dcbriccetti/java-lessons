@@ -2,71 +2,64 @@ package examples.maps;
 
 public class HashMap<K, V> {
 
-  public static class Bucket<K, V> {
-    private Entry<K, V> entry;
+  private static class Link<K, V> {
+    private final K key;
+    private V value;
+    private Link<K, V> next;
 
-    @Override public String toString() {
-      return entry.toString();
-    }
-
-    public static class Entry<K, V> {
-      public K key;
-      public V value;
-      public Entry<K, V> next;
-
-      public Entry(K key, V value) {
-        this.key = key;
-        this.value = value;
-      }
-
-      @Override public String toString() {
-        return key + ": " + value;
-      }
-    }
-
-    public Bucket(K key, V value) {
-      entry = new Entry<>(key, value);
+    public Link(K key, V value) {
+      this.key = key;
+      this.value = value;
     }
   }
 
   private final int NUM_BUCKETS = 16;
-  public Bucket<K, V>[] buckets = new Bucket[NUM_BUCKETS];
+  private final Link<K, V>[] buckets = new Link[NUM_BUCKETS];
 
   public void put(K key, V value) {
     int index = hashIndex(key);
     var existingBucket = buckets[index];
 
     if (existingBucket == null) {
-      buckets[index] = new Bucket<>(key, value);
+      buckets[index] = new Link<>(key, value);
       return;
     }
 
     boolean keyFound = false;
 
-    Bucket.Entry<K, V> entry = existingBucket.entry;
-    while (entry != null) {
-      if (entry.key.equals(key)) {
-        entry.value = value;
+    for (Link<K, V> link = existingBucket; link != null && !keyFound; link = link.next)
+      if (link.key.equals(key)) {
+        link.value = value;
         keyFound = true;
       }
-      entry = entry.next;
-    }
 
-    if (! keyFound) {
-      var formerHead = existingBucket.entry;
-      var newHead = new Bucket.Entry<>(key, value);
-      newHead.next = formerHead;
-      existingBucket.entry = newHead;
+    if (!keyFound) {
+      var newHead = new Link<>(key, value);
+      newHead.next = existingBucket;
+      buckets[index] = newHead;
     }
   }
 
   public V get(K key) {
-    var entry = buckets[hashIndex(key)].entry;
-    while (entry != null) {
-      if (entry.key.equals(key)) return entry.value;
-      entry = entry.next;
-    }
+    for (Link<K, V> link = buckets[hashIndex(key)]; link != null; link = link.next)
+      if (link.key.equals(key))
+        return link.value;
     return null;
+  }
+
+  public void remove(K key) {
+    var index = hashIndex(key);
+    Link<K, V> prev = null;
+    for (Link<K, V> link = buckets[index]; link != null; link = link.next) {
+      if (link.key.equals(key)) {
+        if (prev == null)
+          buckets[index] = link.next;
+        else
+          prev.next = link.next;
+      }
+      prev = link;
+    }
+
   }
 
   private int hashIndex(K key) {
